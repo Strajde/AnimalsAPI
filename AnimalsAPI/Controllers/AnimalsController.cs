@@ -9,34 +9,27 @@ namespace AnimalsAPI.Controllers
     {
         private static List<Animals> animals = new List<Animals>
             {
-                new Animals
-                {
-                    Id = 1, Name = "słoń",
-                    FirstName = "Jan",
-                    LastName = "Trąbalski",
-                    Place = "Afica"
-                },
-                new Animals
-                {
-                    Id = 2, Name = "kaczka",
-                    FirstName = "Aleksandra",
-                    LastName = "Krzywodziób",
-                    Place = "Staw pod Wierzbą"
-                }
+                
             };
+        private readonly DataContext context;
+
+        public AnimalsController(DataContext context)
+        {
+            this.context = context;
+        }
 
         //Get
 
         [HttpGet]
         public async Task<ActionResult<List<Animals>>> Get()
         {
-            return Ok(animals);
+            return Ok(await context.Animals.ToListAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Animals>> Get(int id)
         {
-            var animal = animals.Find(x => x.Id == id);
+            var animal = context.Animals.FindAsync(id);
             if (animal == null)
                 return BadRequest("Animal not found.");
 
