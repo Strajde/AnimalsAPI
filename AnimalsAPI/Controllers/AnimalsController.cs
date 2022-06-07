@@ -29,7 +29,7 @@ namespace AnimalsAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Animals>> Get(int id)
         {
-            var animal = context.Animals.FindAsync(id);
+            var animal =await context.Animals.FindAsync(id);
             if (animal == null)
                 return BadRequest("Animal not found.");
 
